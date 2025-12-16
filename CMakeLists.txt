@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(image-viewer VERSION 0.0.0 LANGUAGES C)
+project(image-viewer VERSION 0.1.0 LANGUAGES C)
 set(APP_NAME imgview)
 
 # Disable SDL Extras
@@ -29,4 +29,13 @@ target_include_directories(${APP_NAME}
 # Add libs locations
 target_link_libraries(${APP_NAME}
   PRIVATE SDL2::SDL2
+)
+
+# For testing
+include(CTest)
+enable_testing()
+
+add_test(
+  NAME load_ppm
+  COMMAND $<TARGET_FILE:${APP_NAME}> ${CMAKE_SOURCE_DIR}/assets/image.ppm
 )

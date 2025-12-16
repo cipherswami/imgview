@@ -3,49 +3,33 @@
  * Description   : Image Viewer with SDL2.
  ***************************************************************/
 
-#include <SDL2/SDL.h>
+// Required
 #include <stdio.h>
+#include <stdlib.h>
+#include "image_viewer.h"
 
 int main(int argc, char *argv[])
 {
-  if (SDL_Init(SDL_INIT_VIDEO) != 0)
+  if (argc != 2)
   {
-    printf("SDL_Init Error: %s\n", SDL_GetError());
+    printf("Usage: imgview <image.ppm>\n\n");
     return 1;
   }
 
-  SDL_Window *win = SDL_CreateWindow(
-      "SDL2 Window",
-      SDL_WINDOWPOS_CENTERED,
-      SDL_WINDOWPOS_CENTERED,
-      800,
-      600,
-      SDL_WINDOW_SHOWN);
-
-  if (!win)
+  FILE *fp = fopen(argv[1], "rb");
+  if (!fp)
   {
-    printf("SDL_CreateWindow Error: %s\n", SDL_GetError());
-    SDL_Quit();
+    perror("fopen");
     return 1;
   }
 
-  int running = 1;
-  SDL_Event e;
-
-  while (running)
+  int height, width, maxval;
+  if (parse_ppm_header(fp, &height, &width, &maxval) != 0)
   {
-    while (SDL_PollEvent(&e))
-    {
-      if (e.type == SDL_QUIT)
-      {
-        running = 0;
-      }
-    }
-
-    SDL_Delay(16); // ~60 FPS idle loop
+    perror("Invalid PPM header\n");
+    fclose(fp);
+    return 1;
   }
-
-  SDL_DestroyWindow(win);
-  SDL_Quit();
+  image_viewer(fp, &height, &width, &maxval);
   return 0;
 }
