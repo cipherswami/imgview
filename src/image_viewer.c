@@ -1,9 +1,15 @@
-#include "image_viewer.h"
-#include <SDL2/SDL.h>
+/*************************************************
+ * @file      src/image_viewer.c
+ * @brief     Contain imager core logic.
+ *************************************************/
+
+// Imports
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <SDL2/SDL.h>
+#include <image_viewer.h>
 
 int parse_ppm_header(FILE *fp, int *width, int *height, int *maxval)
 {
@@ -54,9 +60,6 @@ int parse_ppm_header(FILE *fp, int *width, int *height, int *maxval)
   return 0;
 }
 
-/**
- * Core logic of image viewer.
- */
 void image_viewer(FILE *fp, int *height, int *width, int *maxval)
 {
   if (SDL_Init(SDL_INIT_VIDEO) != 0)
