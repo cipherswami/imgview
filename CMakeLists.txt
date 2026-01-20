@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.28)
 project(image-viewer VERSION 0.1.0 LANGUAGES C)
 set(APP_NAME imgview)
 
+# SDL build options
+set(SDL_SHARED OFF CACHE BOOL "Build SDL3 as shared library" FORCE)
+set(SDL_STATIC ON CACHE BOOL "Build SDL3 as static library" FORCE)
+
 # Disable SDL Extras
 set(SDL_AUDIO     OFF CACHE BOOL "" FORCE)
 set(SDL_JOYSTICK  OFF CACHE BOOL "" FORCE)
